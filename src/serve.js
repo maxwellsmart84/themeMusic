@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import { asyncMiddleware } from './middleware';
 import v1Router from './router';
 
 dotenv.config();
@@ -13,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // routes
 app.options('*', (req, res) => { res.status(200).end(); });
-// app.use('/api/v1', v1Router);
+app.use(asyncMiddleware);
 app.use('/api/v1', v1Router);
 
 // set up 404 response
