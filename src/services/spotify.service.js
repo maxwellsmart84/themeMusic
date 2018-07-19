@@ -3,20 +3,21 @@ import rp from 'request-promise';
 
 export async function authSpotify() {
   const uri = 'https://accounts.spotify.com/api/token';
+  const authString = Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`).toString('base64');
+  console.log(authString);
   try {
     const reply = await rp.post({
       uri,
       form: {
-        grant_type: 'client_credentials'
+        grant_type: 'client_credentials',
       },
       headers: {
-        Authorization: Buffer.from(`${process.env.SPOTIFY_CLIENT_ID}:${process.env.SPOTIFY_CLIENT_SECRET}`, 'base64');
-      }
-    })
+        Authorization: `Basic ${authString}`,
+      },
+    });
     return reply;
-  } catch(err) {
-    console.log(err)
-    return err;
+  } catch (err) {
+    console.log(err);
+    throw new Error(err);
   }
-  return null;
 }

@@ -1,7 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
-import { asyncMiddleware } from './middleware';
+// import asyncMiddleware from './middleware';
 import v1Router from './router';
 
 dotenv.config();
@@ -9,17 +9,19 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// app.use(asyncMiddleware);
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({
+  extended: true,
+}));
 
 // routes
 app.options('*', (req, res) => { res.status(200).end(); });
-app.use(asyncMiddleware);
 app.use('/api/v1', v1Router);
 
 // set up 404 response
 app.use('/', (req, res) => {
-  errors.sendError(res)(new errors.NotFoundError(`RhinoApi running, endpoint '${req.path}' not found`));
+  res.status(404).send(`${req.path} not found`);
 });
 
 const server = app.listen(PORT, () => {
