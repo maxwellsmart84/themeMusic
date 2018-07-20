@@ -2,7 +2,7 @@
   "extends": "maxwell",
   "rules": {
     "object-curly-newline": ["error", {
-      "ObjectExpression": "always"
+      "ObjectExpression": { "multiline": true }
     }]
   }
 }

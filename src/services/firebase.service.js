@@ -8,10 +8,18 @@ admin.initializeApp({
 });
 
 const db = admin.database();
-const spotifyTokenRef = db.ref().child('spotifyTokens/tokens');
+const spotifyTokenRef = db.ref().child('spotify-token');
 
 export async function postToken(token) {
-  const reply = await spotifyTokenRef.set(token);
-  console.log('Firebase reply', reply);
-  return reply;
+  try {
+    const tokenData = {
+      token,
+    };
+    await spotifyTokenRef.push({
+      tokenData,
+    });
+    return true;
+  } catch (err) {
+    throw new Error(err);
+  }
 }
