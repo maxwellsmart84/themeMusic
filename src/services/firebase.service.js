@@ -21,6 +21,12 @@ export async function postToken(token) {
   }
 }
 
+// export async function getToken() {
+//   try {
+//     const token
+//   }
+// }
+
 export function getUser(id) {
   console.log('Figure out Get by id');
   return id;

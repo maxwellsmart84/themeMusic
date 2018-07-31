@@ -14,11 +14,10 @@ const router = express.Router();
 // router.post('/play', songHookController.playSong);
 
 
-router.get('/spotify', asyncWrap(spotifyController.))
+// router.get('/spotify', asyncWrap(spotifyController.))
 router.get('/spotify/auth', asyncWrap(spotifyController.authorize));
-router.get('/spotify/song', asyncWrap(spotifyController.getSongs));
-router.get('/spotify/artist', asyncWrap(spotifyController.getArtists));
-router.get('/spotify/album', asyncWrap(spotifyController.getAlbums));
+router.get('/spotify/search', asyncWrap(spotifyController.search));
+
 
 // router.patch('/spotify/patch', spotifyController.patchSong);
 

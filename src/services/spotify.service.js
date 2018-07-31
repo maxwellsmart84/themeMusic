@@ -1,4 +1,5 @@
 import rp from 'request-promise';
+import * as db from './firebase.service';
 
 
 export async function authSpotify() {
@@ -17,22 +18,25 @@ export async function authSpotify() {
   }
 }
 
-export async function searchSong(searcData) {
-  console.log(searchData);
-  return searchData;
+export async function searchSpotify(params) {
+  const uri = `https://api.spotify.com/v1/search?q=${params}`;
+  const { access_token: token } = await authSpotify();
+  console.log(params);
+  try {
+    const reply = await rp.get({
+      uri,
+      headers: { Authorization: `Bearer ${token}` },
+      qsParseOptions: { encode: false },
+      qs: {
+        // q: params,
+        limit: 6,
+        type: 'album,artist,track',
+      },
+      json: true,
+    });
+    return reply;
+  } catch (err) {
+    throw new Error(err);
+  }
 }
 
-export async function searchArtist(searchData) {
-  console.log(searchData);
-  return searchData;
-}
-
-export function searchAlbum(searchData) {
-  console.log(searchData);
-  return searchData;
-}
-
-export function searchAll(searchData) {
-  console.log(searchData);
-  return searchData;
-}
